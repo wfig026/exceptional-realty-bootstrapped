@@ -1,0 +1,1546 @@
+/*
+Project Name: CQuence Health Group Benefits Calculator
+Description: Calculate monthly benefits costs for CQuence Health Group employees
+Author:  Stratus Interactive
+Author URI:  http://www.stratusinteractive.com/
+Template: Vue.js
+Version:  1.0.0
+*/
+
+/* Index
+------------------------------------------------------- */
+/*
+  1. Basic Styles
+    - Typography
+    - Helpers
+    - App
+  2. Components
+    - Header
+    - Off Canvas Menu
+    - Benefits Intro
+    - Benefits Sideview
+    - Benefits Details
+    - Voluntary Plans
+  3. Responsive
+*/
+
+/* -------------------------------------------------------
+  1. Basic Styles
+------------------------------------------------------- */
+
+/* Typography
+------------------------------------------------------- */
+body {
+  color: #333;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  overflow: hidden;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #273c55;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  line-height: 1.125em;
+  width: 100%;
+}
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: inherit;
+}
+h1{
+  font-size: 2.778em;
+  margin-bottom: 1.250rem;
+}
+h2 {
+  font-size: 2.000em;
+}
+h3 {
+  font-size: 1.778em;
+}
+h4 {
+  font-size: 1.556em;
+  color: #00233d;
+}
+h5 {
+  font-size: 1.333em;
+  color: #00233d;
+}
+h6 {
+  font-size: 1em;
+  color: #666;
+  text-transform: uppercase;
+}
+p {
+  width: 100%;
+}
+.light, span.light {
+  font-weight: 300;
+}
+a.no-decoration {
+  text-decoration: none;
+}
+
+/* Helpers
+------------------------------------------------------- */
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+.no-side-pad {
+  padding-left: 0;
+  padding-right: 0;
+}
+.no-right-pad {
+  padding-right: 0;
+}
+.no-left-pad {
+  padding-left: 0;
+}
+.no-bottom-pad {
+  padding-bottom: 0 !important;
+}
+.top-margin {
+  margin-top: 1rem;
+}
+.bottom-margin {
+  margin-bottom: 1rem !important;
+}
+.text-center {
+  text-align: center;
+}
+input:focus {
+  outline: none;
+  box-shadow: none;
+}
+.mobile {
+  display: none;
+}
+.span-nowrap {
+  white-space: nowrap;
+}
+
+/* App Styles
+------------------------------------------------------- */
+#app {
+  font-family: 'Lato', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-height: 100vh;
+  overflow: hidden;
+}
+.app-ins {
+  padding: 0;
+}
+.container-fluid {
+  padding: 0;
+}
+.content_wrap {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+body {
+  position: fixed;
+  width: 100%;
+}
+body.android {
+  overflow-y: auto;
+}
+
+/* -------------------------------------------------------
+  2. Components
+------------------------------------------------------- */
+
+/* Header Styles
+------------------------------------------------------- */
+.menu_wrap {
+  background: #00233d;
+  color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+.menu_wrap .row {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.menu_wrap h5 {
+  margin: 0;
+  color: #fff;
+}
+.menu_wrap h6 {
+  color: #97d1da;
+  margin: 0;
+  padding: 0;
+}
+.logo.desktop {
+  max-height: 42px;
+}
+.logo.mobile {
+  display: none;
+}
+.company-logo {
+  border-right: 1px solid rgba(255,255,255, .3);
+}
+.company-logo:last-child {
+  border-right: none;
+}
+.burger_menu {
+  font-size: .938rem;
+  text-transform: uppercase;
+  color: #97d1da;
+  text-align: right;
+}
+.burger_menu span {
+  position: relative;
+  top: 1px;
+}
+.burger_menu-icon {
+  cursor: pointer;
+}
+
+/* Off Canvas Menu
+------------------------------------------------------- */
+.off-canvas-menu {
+  position: absolute;
+  top: 0;
+  right: -270px;
+  width: 260px;
+  min-height: 100vh;
+  max-height: 100vh;
+  background-color: #123046;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,.3);
+  padding: 25px 15px 25px;
+  overflow-y: scroll;
+  z-index: 1;
+}
+.off-canvas-menu.active {
+  right: 0;
+}
+.off-canvas-menu-ins {
+  overflow-y: scroll;
+}
+.off-canvas-menu h5 {
+  color: #97d1da;
+  font-weight: 400;
+}
+.off-canvas-menu-header {
+  margin-top: 0.625rem;
+}
+.off_canvas_menu-item-wrap {
+  padding: 0;
+  margin-bottom: 10px;
+}
+.off_canvas_menu-item {
+  color: #fff;
+  cursor: pointer;
+}
+.off_canvas_menu-item > a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Benefits Intro
+------------------------------------------------------- */
+.benefit-intro-wrap {
+  position: relative;
+  min-height: 100vh;
+  background-image: url('./cq-calculator-welcome-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.benefit-intro {
+  text-align: center;
+  max-width: 75%;
+  margin: 0 auto;
+  font-size: 1.125rem;
+}
+.benefit-intro-select-start {
+  color: #e16626;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  position: absolute;
+  left: 20px;
+  top: 90px;
+  max-width: 175px;
+  z-index: 1;
+}
+.benefit-intro-select-start-ins {
+  position: relative;
+}
+.benefit-intro-select-start-ins.col {
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+.benefit-intro-select-start-ins:before {
+  content: url('./cq-icon-arrow-callout.svg');
+  position: absolute;
+  top: 40%;
+  left: -30px;
+  width: 40px;
+  height: 25px;
+}
+.get-started {
+  display: inline-block;
+  background-color: #e16626;
+  padding: 8px 25px 10px;
+  color: #fff;
+  font-weight: 700;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,.3);
+  cursor: pointer;
+  margin-top: 1.25rem;
+}
+.get-started:hover {
+  background-color: #eda80f;
+}
+@-webkit-keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    40% {
+      -webkit-transform: translateY(-30px);
+      transform: translateY(-30px);
+    }
+    60% {
+      -webkit-transform: translateY(-15px);
+      transform: translateY(-15px);
+    }
+  }
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      -moz-transform: translateY(0);
+      -ms-transform: translateY(0);
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    40% {
+      -moz-transform: translateY(-10px);
+      -ms-transform: translateY(-10px);
+      -webkit-transform: translateY(-10px);
+      transform: translateY(-10px);
+    }
+    60% {
+      -moz-transform: translateY(-5px);
+      -ms-transform: translateY(-5px);
+      -webkit-transform: translateY(-5px);
+      transform: translateY(-5px);
+    }
+  }
+  .bounce {
+    -moz-animation: bounce 2s infinite;
+    -webkit-animation: bounce 2s infinite;
+    animation: bounce 2s infinite;
+  }
+
+/* Benefits Sideview
+------------------------------------------------------- */
+.benefits_list_wrap {
+  height: 100vh;
+  max-height: calc(100vh - 85px);
+  padding: 0;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+.benefits_list_header {
+  padding: 0 25px 0;
+}
+.benefits_list_header-ins {
+  padding: 30px 0 20px;
+}
+.benefits_list_header h3 {
+  margin: 0;
+}
+.benefits_cost_header {
+  text-align: right;
+}
+.benefits_list_ins {
+  /* max-height: calc(100vh - 245px); */
+  overflow-x: visible;
+  overflow-y: auto;
+  margin: 0;
+  position: relative;
+}
+.benefits_list_item {
+  padding: 0 25px 0;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+.benefits_list_item:hover {
+  background-color: #fbeecf;
+  cursor: pointer;
+}
+.benefits_list_item.active {
+  background-color: #fbeecf;
+}
+.benefits_list_item-ins {
+  padding: 25px 15px 20px;
+  border-top: 1px solid #ddd;
+}
+.benefits_list_item h5 {
+  padding: 0;
+  margin: 0;
+  color: #00233d;
+}
+.benefit_type-wrap {
+  padding-left: 0;
+  padding-right: 0;
+}
+.benefit_type-wrap img {
+  width: 25px;
+  height: 25px;
+}
+.benefit-icon {
+  width: auto;
+  max-width: 100%;
+  flex: inherit;
+}
+.benefit-name {
+  width: auto;
+  max-width: 85%;
+  flex: inherit;
+}
+.benefit_cost-wrap {
+  text-align: right;
+  padding-right: 0;
+  padding-left: 0;
+}
+.benefit_cost {
+  color: #00233d;
+  font-size: 1.333em;
+  font-weight: 400;
+  line-height: 1;
+  text-align: right;
+  color: #00233d;
+}
+.benefit_tpye h3,
+.benefit_cost {
+  margin-bottom: 0;
+}
+.benefits_total_wrap {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  margin: 0;
+  background-color: #97d1da;
+  /* position: absolute;
+  bottom: -5px;
+  left: 0; */
+  z-index: 1;
+}
+.benefits_total {
+  margin-bottom: 5px;
+}
+.benefits_total_wrap h3 {
+  font-size: 1.375rem;
+}
+.benefit-total-breakdown {
+  display: block; 
+  font-size: .8rem;
+  font-weight: 400;
+  color: #273c55; 
+  padding-top: 5px;
+}
+.email-download-wrap {
+  margin: 1rem 0;
+}
+.btn-white {
+  background-color: #fff !important;
+  color: #00233d;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  outline: none;
+  white-space: normal;
+}
+.btn-white:hover,
+.btn-white:active {
+  background-color: #00233d !important;
+  color: #fff;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+}
+.btn-white:focus {
+  box-shadow: none;
+}
+.plan-icon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 2px;
+  float: left;
+}
+.notices-disclaimer,
+.notices-disclaimer:hover {
+  color: #00233d;
+  text-decoration: none;
+}
+/***** Toggle Tab (Tablet/Mobile) *****/
+.benefits_total_wrap-mobile-tab-icon-wrap {
+  display: none;
+}
+/***** Mobile Direction *****/
+.benefits-list_mobile-notice {
+  display: none;
+}
+
+/* Benefits Details
+------------------------------------------------------- */
+.benefits_wrap {
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: scroll;
+  padding: 30px 20px 115px;
+  background-color: #eee;
+}
+.benefits_details_row {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 2rem;
+  padding-bottom: 1.250rem;
+}
+.benefits_details_row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+/***** Provider Contact Info *****/
+.contact_details_row {
+  border-top: 1px solid #ccc;
+  margin-top: 1rem;
+  padding-top: 1.250rem;
+}
+.provider {
+  display: block;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 1.333em;
+  color: #273c55;
+}
+.provider-contact-info {
+  display: block;
+}
+/***** Benefits Details Table *****/
+.benefits-table-wrap {
+  margin-top: 1rem;
+}
+.benefits-table-header {
+  background-color: #d9d9d9;
+  padding: 1.250rem;
+  font-weight: 500;
+}
+.benefits-table-ins.disability:first-child,
+.benefits-table-ins.vision:first-child,
+.benefits-table-ins.wellness:first-child {
+  background-color: #d9d9d9;
+  font-weight: 500;
+}
+.benefits-table-ins:first-child .benefits-table-col,
+.benefits-table-ins.dental:last-child .benefits-table-col,
+.benefits-table-ins.vision:last-child .benefits-table-col,
+.no-bottom-border {
+  border-bottom: none;
+}
+.benefits-table-col {
+  border-bottom: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  padding: 1.250rem;
+}
+.benefits-table-col.col-1 {
+  flex: 0 0 12.333333%;
+  max-width: 12.333333%;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+.benefits-table-ins .border-bottom {
+  border-bottom: 1px solid #d9d9d9;
+}
+.benefits-table-ins:first-child .benefits-table-col strong,
+.benefits-table-col:first-child strong {
+  font-weight: 500;
+}
+.benefits-table-col:empty {
+  border: none;
+}
+.benefits-table-col:last-child {
+  border-right: none;
+}
+/***** State Programs Table *****/
+.states-table-ins {
+  border-bottom: 1px solid #d9d9d9;
+}
+.states-table-ins:last-child {
+  border-bottom: none;
+}
+.states-table-col {
+  padding: 1.250rem;
+  border-right: 1px solid #d9d9d9;
+  word-break: break-word;
+}
+.states-table-col:last-child {
+  border-right: none;
+}
+.states-table-col h5 {
+  font-size: 1.125rem;
+}
+/***** Entollment Options ******/
+.enrollment-options-form {
+  margin-top: .875rem;
+}
+/* The enrollment option container */
+.enrollment-option-container {
+    display: block;
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 50%;
+    float: left;
+}
+.enrollment-option-container.vol-life,
+.enrollment-option-container.vol-death,
+.enrollment-option-container.critical-illness {
+  width: 100%;
+  float: none;
+}
+.enrollment-opts-form form {
+  width: 100%;
+}
+/* Hide the browser's default radio button */
+.enrollment-option-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 35px;
+    width: 35px;
+    background-color: transparent;
+    border: 3px solid #71b3bd;
+    border-radius: 3px;
+}
+/* When the radio button is checked */
+.enrollment-option-container input:checked ~ .checkmark {
+    background-color: #71b3bd;
+}
+.enrollment-option-container input:checked ~ .checkmark.noCost {
+  background-color: #e16626;
+  border-color: #e16626;
+}
+/* Create the indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+/* Show the indicator when checked */
+.enrollment-option-container input:checked ~ .checkmark:after {
+    display: block;
+}
+/* Style the indicator */
+.enrollment-option-container .checkmark:after {
+  top: 3px;
+  left: 3px;
+  width: 80%;
+  height: 80%;
+  background: url('./cq-icon-check-mark.svg');
+  background-repeat: no-repeat;
+}
+.enrollment-option-container .checkmark.noCost:after {
+  background: url('./cq-icon-x-mark-white.svg');
+}
+/* Labels */
+.enrollment-option-label {
+  display: inline-block;
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: .25rem;
+}
+.enrollment-option-label.noCost {
+  margin-top: .5rem;
+}
+.vol-death .enrollment-option-label.noCost {
+  margin-top: .25rem;
+}
+.enrollement-options-form.fsa-hsa .enrollment-option-label.noCost {
+  margin-top: 0;
+}
+.enrollment-option-price {
+  display: inline-block;
+  font-size: 1.125rem;
+}
+/***** FSA & HSA Enrollment Options *****/
+.fsa-only ~ .row .input-group.fsa-hsa {
+  margin-top: 0.25rem;
+}
+.fsa-only ~ .row>.col:first-child {
+  padding-left: 0;
+}
+.enrollement-options-form.fsa-hsa .enrollment-option-container {
+  padding-top: 7px;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+/***** Voluntary Insurance Table *****/
+.vol-life-ins__calc .benefits-table-col:first-child p,
+.vol-death-ins .benefits-table-col:first-child,
+.vol-death__calc .benefits-table-col:first-child p {
+  font-weight: 500;
+}
+.vol-life-ins__calc .benefits-table-col input,
+.vol-death__calc .benefits-table-col input {
+  padding: 5px 10px 5px 30px;
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  font-weight: 300;
+  position: relative;
+}
+.input-group {
+  position: relative;
+}
+.input-dollar-sign {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  z-index: 1;
+  font-weight: 600;
+  padding: 6px 8px 5px;
+  background-color: #d9d9d9; 
+  height: 100%;
+}
+.input-group.fsa-hsa {
+  margin-top: 1.5rem;
+}
+.input-group.fsa-hsa input {
+  min-width: 200px;
+  padding: 5px 10px 5px 30px;
+  font-weight: 300;
+}
+.vol-life-ins__calc .benefits-table-col select,
+.vol-death__calc .benefits-table-col select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 90%;
+  border-radius: 0;
+  border: 1px solid #d9d9d9;
+  padding: 5px 25px 5px 10px;
+  margin-bottom: 3px;
+  font-weight: 300;
+  background-image: url('./cq-icon-dropdown-arrow.png');
+  background-repeat: no-repeat;
+  background-position: 95% center;
+  background-size: 8%;
+  background-color: #fff;
+}
+.vol-life-ins__calc .benefits-table-col select::-ms-expand,
+.vol-death__calc .benefits-table-col select::-ms-expand {
+  display: none;
+  visibility: hidden;
+}
+.vol-life-calc-notice,
+.vol-death-calc-notice {
+  font-weight: 400;
+}
+span.vol-life-calc-notice,
+span.vol-death-calc-notice {
+  padding-left: 25px;
+}
+/***** Back to Summary (Tablet/Mobile) *****/
+.mobile-back-summary-wrap {
+  display: none;
+}
+/***** Back to Top (Tablet/Mobile) *****/
+.back-to-top {
+  background-color: #97d1da;
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+}
+.back-to-top img {
+  transform: rotate(180deg);
+}
+.back-to-top.show {
+  opacity: 1;
+}
+
+/* Voluntary Plans
+------------------------------------------------------- */
+.vol-plan-options-wrap {
+  width: 24.25%;
+  margin: 0 1% 0 0;
+}
+.vol-plan-option-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.voluntary-plans select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    border-radius: 0;
+    border: 1px solid #d9d9d9;
+    padding: 5px 25px 5px 10px;
+    font-weight: 300;
+    background-image: url('./cq-icon-dropdown-arrow.png'); 
+    background-repeat: no-repeat;
+    background-position: 95% center;
+    background-size: 6%;
+    background-color: #fff;
+}
+.voluntary-plans select::-ms-expand {
+  display: none;
+  visibility: hidden;
+}
+.voluntary-plans select:last-child {
+  margin: 0;
+}
+.email-popup__inner input {
+  padding: 5px 10px;
+  border: 1px solid #d9d9d9;
+  font-weight: 300;
+  width: 100%;
+  height: 44px
+}
+.email-popup__send {
+  background-color: #71b3bd !important;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+}
+.email-popup__send:hover,
+.email-popup__send:active {
+  background-color: #1e547b !important;
+}
+.email-popup__send:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+/* IE11-specific code */
+.off-canvas-menu,
+.ie11 .benefit-intro-wrap,
+.ie11 .benefits_wrap {
+  min-height: calc(100vh - 82px);
+  max-height: calc(100vh - 82px);
+}
+
+@media (max-width: 1080px) {
+  .off-canvas-menu,
+  .ie11 .benefit-intro-wrap,
+  .ie11 .benefits_wrap {
+    min-height: calc(100vh - 99px);
+    max-height: calc(100vh - 99px);
+  }
+  .vol-life-ins__calc .benefits-table-col select,
+  .vol-death__calc .benefits-table-col select,
+  .voluntary-plans select {
+    padding: 5px 15px 5px 10px;
+  }
+}
+@media (max-width: 1024px) {  
+  .ie11 .benefit-intro-wrap {
+    height: calc(100vh - 99px);
+  }
+  .ie11 .benefits-list_mobile-notice {
+    left: calc(50% - 130px);
+    right: auto;
+    width: 260px;
+  }
+  .ie11 .email-download-wrap {
+    -ms-flex-pack: justify;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+  }
+  .ie11 .email-download-wrap .col-6 {
+    flex: 0 0 48%;
+  }
+  .ie11 .email-download-wrap .col-6.email-download:first-child {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 750px) {
+  .off-canvas-menu,
+  .ie11 .benefit-intro-wrap,
+  .ie11 .benefits_wrap {
+    min-height: calc(100vh - 116px);
+    max-height: calc(100vh - 116px);
+  }
+  .ie11 .benefit-intro-wrap {
+    height: calc(100vh - 116px);
+  }
+}
+
+@media (max-width: 650px) {
+  .off-canvas-menu,
+  .ie11 .benefit-intro-wrap,
+  .ie11 .benefits_wrap {
+    min-height: calc(100vh - 78px);
+    max-height: calc(100vh - 78px);
+  }
+  .ie11 .benefit-intro-wrap {
+    height: calc(100vh - 78px);
+  }
+}
+
+/* Mobile Device Fixes */
+.touchscreen .off-canvas-menu {
+  padding: 25px 15px 60px;
+}
+.touchscreen .benefits_wrap {
+  padding: 30px 20px 145px;
+}
+
+.touchscreen.ios-safari .off-canvas-menu {
+  padding: 25px 15px 120px;
+}
+.touchscreen.ios-safari .benefits_wrap {
+  padding: 30px 20px 210px;
+}
+
+.touchscreen.ios-safari .benefit-intro-wrap>.container-fluid {
+  margin-bottom: 60px;
+}
+
+.touchscreen.android .benefit-intro-wrap>.container-fluid {
+  margin-bottom: 60px;
+}
+
+/* -------------------------------------------------------
+  3. Responsive
+------------------------------------------------------- */
+@media only screen and (max-width: 1400px) {
+  .btn-white {
+      padding: 10px 5px;
+  }
+}
+@media only screen and (max-width: 1224px) {
+  .benefits_list_item-ins {
+      padding: 25px 0 20px !important;
+  }
+  /* .benefits_total_wrap {
+      padding: 20px 10px 0 !important;
+  } */
+}
+@media only screen and (max-width: 1120px) {
+  h1 {
+    font-size: 2.5em;
+  }
+  .benefits_list_item h5 {
+    font-size: 1.125rem;
+  }
+  .benefit_cost {
+    font-size: 1.125rem !important;
+  }
+  /* .benefits_total_wrap {
+    padding: 20px 25px 0 !important;
+  } */
+  .benefits_total_wrap h3 {
+      font-size: 1.25rem;
+  }
+  /* .benefits_list_ins {
+      max-height: calc(100vh - 245px);
+  } */
+  .benefits_list_item {
+      padding: 0 15px 0;
+  }
+  .benefit_tpye {
+      padding-left: 0;
+  }
+  .benefit_cost {
+      padding-left: 0;
+      padding-right: 0;
+  }
+  .benefits_total_wrap .col:first-child {
+      padding-left: 0;
+  }
+  .benefits_total_wrap .col:last-child {
+      padding-right: 0;
+  }
+  .btn-white {
+      padding: 10px 25px;
+  }
+}
+@media only screen and (max-width: 1061px) {
+  .benefits_cost_header {
+      padding: 0;
+  }
+  /* .benefits_total_wrap {
+      padding: 20px 25px 20px !important;
+  } */
+  /* .benefits_list_ins {
+      max-height: calc(100vh - 265px);
+  } */
+}
+@media only screen and (max-width: 970px) {
+  h1 {
+    font-size: 2.000em;
+  }
+  h2 {
+    font-size: 1.75em;
+  }
+  h3 {
+    font-size: 1.5em;
+  }
+  h4 {
+    font-size: 1.25em;
+    color: #00233d;
+  }
+  h5 {
+    font-size: 1.125em;
+    color: #00233d;
+  }
+  h6 {
+    font-size: 1em;
+    color: #666;
+    text-transform: uppercase;
+  }
+  .benefit_type {
+      font-size: .875rem;
+      line-height: 1.25;
+      display: block;
+  }
+  .benefits_total_wrap h3 {
+    font-size: 1.125rem;
+  }
+
+}
+@media only screen and (max-width: 920px) {
+  /* .benefits_list_ins {
+      max-height: calc(100vh - 295px);
+  } */
+  .benefits_list_item h5 {
+      font-size: 1.0125rem;
+  }
+  .benefit_cost {
+      font-size: 1.0125rem !important;
+  }
+  .email-download-wrap {
+      display: block;
+  }
+  .email-download.col-6 {
+      padding: 0;
+      width: 100%;
+      max-width: 100%;
+  }
+  .email-download.col-6:first-child {
+      margin-bottom: .75rem;
+  }
+}
+/* Start Mobile View
+------------------------------------------------------- */
+@media only screen and (max-width: 1024px) {
+  .content_wrap-ins {
+      display: block;
+      position: relative;
+  }
+  .logo.desktop {
+    display: none;
+  }
+  .logo.mobile {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+  }
+  .benefits-side-wrap {
+      width: 100%;
+      max-width: 100%;
+  }
+  .benefits_list_wrap {
+      box-shadow: none;
+  }
+  .benefits_tpye_header {
+    padding-left: 0;
+  }
+  .benefits_list_ins {
+      padding-bottom: 30px;
+  }
+  .benefits_list_item.active {
+    background-color: #fff;
+  }
+  .benefits_list_item.active:hover {
+    background-color: #fbeecf;
+  }
+  .benefit_type-wrap {
+    padding-left: 15px;
+  }
+  .benefit_cost-wrap {
+    padding-right: 10px;
+  }
+  .benefits-list_mobile-notice {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    position: fixed;
+    top: 30%;
+    left: 0;
+    right: 0;
+    background-color: #eee;
+    padding: 0;
+    border-radius: 10px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #00233d;
+    margin: 0 auto;
+    z-index: 1;
+    max-width: 260px;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+  }
+  .benefits-list_mobile-notice-close {
+    text-align: right;
+    display: block;
+    padding: 0 5px 0;
+    cursor: pointer;
+  }
+  .benefits-list_mobile-notice-msg {
+    padding: 0 35px 15px 19px;
+  }
+  .email-download-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 1rem 0 0;
+  }
+  .email-download.col-6:first-child {
+      padding-right: 15px;
+  }
+  .benefits_total_wrap {
+    position: fixed;
+    bottom: -110px;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+  }
+  .benefits_total_wrap.open {
+    bottom: 0;
+  }
+  .benefits_total_wrap p {
+    margin: 0;
+  }
+  .benefits_total_wrap-mobile-tab-icon-wrap {
+    position: absolute;
+    top: -30px;
+    left: 25px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: #97d1da;
+    display: inline-block;
+    padding: 5px 10px 5px;
+    cursor: pointer;
+  }
+  .benefits_total_wrap-mobile-tab-icon {
+    display: inline-block;
+    vertical-align: top;   
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;  
+    transform: rotate(180deg);
+  }
+  .benefits_total_wrap.open .benefits_total_wrap-mobile-tab-icon {
+    transform: rotate(0deg);
+  }
+  .benefit-intro-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 100%;
+    max-width: 100%;
+    z-index: 1;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+  }
+  .benefit-intro-select-start {
+    display: none;
+  }
+  .benefit-intro {
+    max-width: 80%;
+  }
+  .benefit-details-wrap.col-8 {
+    position: absolute;
+    top: 0;
+    right: -1075px;
+    width: 100%;
+    max-width: 100%;
+    z-index: 1;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+  }
+  .benefit-details-wrap.col-8.active {
+    right: 0;
+  }
+  .benefits-table-col {
+    padding: 1.25rem 1rem;
+  } {
+    padding: 1rem;
+  }
+  .mobile-back-summary-wrap {
+      display: block;
+  }
+  .mobile-back-summary {
+      display: inline-block;
+      color: #71b3bd;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+  }
+  .mobile-back-summary:before {
+      content: url('./cq-icon-back-arrow.png');
+      padding-right: 5px;
+      position: relative;
+      top: 2px;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .text-center {
+    text-align: left !important;
+  }
+  .desktop {
+    display: none !important;
+  }
+  .mobile {
+    display: block;
+  }
+  .menu_wrap .col-7 {
+    display: none;
+  }
+  .menu_wrap .col-3 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 75%;
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+  .menu_wrap .col-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  .burger_menu span {
+    display: none;
+  }
+  .burger_menu img {
+    margin: 0 !important;
+  }
+  .benefits_list_wrap {
+    max-height: calc(100vh - 75px);
+  }
+  .fsa-only ~ .row>.col {
+    display: block;
+    width: 100%;
+  }
+  .fsa-only ~ .row>.col:first-child {
+    margin-bottom: 10px;
+  }
+  .fsa-only ~ .row>.col:last-child {
+    padding-left: 0;
+  }
+  /* Table Styles */
+  .benefits-table-ins > .row {
+    display: block;
+  }
+  .benefits-table-col.col-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+  .benefits-table-col:first-child {
+    border-right: none;
+    border-bottom: none;
+    padding: 1.250rem 1.250rem 0;
+  }
+  .benefits-table-col:last-child {
+    padding: 0 1.250rem 1.250rem;
+  }
+  .benefits-table-col:empty {
+    /* display: none; */
+    border-bottom: 1px solid #d9d9d9;
+  }
+  .benefits-table-ins:last-child .benefits-table-col:empty {
+    display: block;
+  }
+  .voluntary-plans select {
+    background-size: 4%; 
+  }
+  /* Wellness */
+  .benefits-table-ins.wellness .benefits-table-col:last-child {
+    padding: 0 1.250rem 0;
+    border-bottom: 0;
+  }
+  .benefits-table-ins.wellness:first-child .benefits-table-col:last-child {
+    padding: 0 1.25rem 1.25rem;
+  }
+  /* Voluntary Life Insurance */
+  .benefits-table-ins.vol-life-ins > .row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .benefits-table-ins.vol-life-ins  .benefits-table-col:first-child {
+    border-right: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+  }
+  .vol-life-ins__calc:first-child .benefits-table-col {
+    border-bottom: 1px solid #d9d9d9;
+  }
+  .benefits-table-ins.vol-life-ins  .benefits-table-col:last-child {
+    padding: 1.250rem;
+  }
+  .benefits-table-ins.vol-life-ins__calc .benefits-table-col {
+    padding: 1.250rem 0;
+    border-right: none;
+  }
+  .benefits-table-ins.vol-life-ins__calc .benefits-table-col:first-child {
+    padding: 1.250rem 0 0;
+  }
+  .benefits-table-ins.vol-life-ins__calc .benefits-table-col p {
+    margin: 0;
+  }
+  .benefits-table-ins.vol-life-ins__calc:last-child .col {
+    padding-left: 0;
+    margin-bottom: 0 !important;
+  }
+  .benefits-table-ins.vol-life-ins__bottom {
+    margin-top: 1rem;
+    margin-bottom: 0 !important;
+  }
+  .vol-life-ins__calc .benefits-table-col select, 
+  .vol-death__calc .benefits-table-col select {
+    width: 97.75%;
+    background-position: 98% center;
+    background-size: 2%;
+  }
+  span.vol-life-calc-notice,
+  span.vol-death-calc-notice  {
+    padding-left: 0;
+    padding-top: .25rem;
+    display: block;
+  }
+  .enrollment-option-container.vol-life {
+    width: 100%;
+  }
+  .enrollment-option-container.vol-life .enrollment-option-label {
+    margin-bottom: 0;
+    margin-top: 7px;
+  }
+  /* Voluntary Death */
+  .benefits-table-ins.vol-death-ins > .row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .benefits-table-ins.vol-death-ins  .benefits-table-col:first-child {
+    border-right: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+  }
+  .benefits-table-ins.vol-death-ins  .benefits-table-col:last-child {
+    padding: 1.250rem;
+  }
+  .benefits-table-ins.vol-death-ins__calc .benefits-table-col {
+    padding: 1.250rem 0;
+    border-right: none;
+  }
+  .benefits-table-ins.vol-death-ins__calc .benefits-table-col:first-child {
+    padding: 1.250rem 0 0;
+  }
+  .vol-death__calc-wrap {
+    margin: -1rem 0;
+  }
+  .vol-death__calc:first-child .benefits-table-col {
+    border-bottom: 1px solid #d9d9d9;
+  }
+  .vol-death__calc .benefits-table-col {
+    border-right: none;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 1rem 0;
+  }
+  /* Voluntary Plans */
+  .benefits-table-ins.voluntary-plans > .row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .benefits-table-ins.voluntary-plans .benefits-table-col:first-child {
+    border-right: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    font-weight: 400;
+  }
+  .benefits-table-ins.voluntary-plans .benefits-table-col:last-child {
+    padding: 1.250rem;
+  }
+  .benefits-table-ins.voluntary-plans .benefits-table-col {
+    padding: 1.250rem;
+  }
+  .benefits-table-ins.voluntary-plans .benefits-table-col:first-child {
+    padding: 1.250rem;
+  }
+  .vol-plan-options-wrap {
+    width: 100%;
+    flex: 1 1 49%;
+    max-width: 49%;
+    margin: 0;
+  }
+  .vol-plan-options-wrap:nth-child(2n - 1) {
+    margin-right: 1%;
+  }
+  /* Email Popup */
+  .email-popup__inner .row {
+    display: block;
+  }
+  .email-popup__inner .col-8,
+  .email-popup__inner .col-4 {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+  .email-popup__inner .col-8 {
+    margin-bottom: 15px;
+  }
+}
+@media only screen and (max-width: 545px) {
+  .benefit-intro {
+    max-width: 100%;
+  }
+  .enrollment-option-container {
+    width: 100%;
+    float: none;
+  }
+  /* Voluntary Plans */
+  .vol-plan-options-wrap {
+    width: 100%;
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin: 0 0 1rem;
+  }
+  .vol-plan-options-wrap:nth-child(2n - 1) {
+    margin-right: 0;
+  }
+  .voluntary-plans select {
+    background-size: 3%;
+    background-position: 98% center;
+  }
+  /* Assistance Programs - States Table */
+  .states-table-ins {
+    border-bottom: none;
+  }
+  .states-table-ins > .row {
+    display: block;
+  }
+  .states-table-col {
+    border-right: none;
+    padding: 1.25rem 0 0;
+    border-bottom: 1px solid #d9d9d9;
+  }
+  .states-table-ins:last-child .states-table-col {
+    border-bottom: none;
+  }
+  .states-table-col:empty {
+    display: none;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .benefits_wrap {
+    padding: 20px 5px 115px;
+  }
+}
+@media only screen and (max-width: 420px) {
+  /* .benefits_list_ins {
+    max-height: calc(100vh - 134px);
+  }
+  .benefits_list_ins.open {
+    max-height: calc(100vh - 315px);
+  } */
+  .benefits_total_wrap {
+    bottom: -165px;
+  }
+  .email-download-wrap {
+    display: block;
+    margin: 0 0 1rem;
+  }
+  .email-download.col-6 {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+  .email-download.col-6:first-child {
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 400px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  .menu_wrap .col-3 {
+    flex: 0 0 80%;
+    max-width: 80%;
+    padding: 0;
+  }
+  .menu_wrap .col-2 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding: 0;
+  }
+  .benefit-intro-wrap {
+    padding: 0 1rem;
+    overflow-y: scroll;
+  }
+  .benefit-intro .col {
+    padding: 0;
+  }
+  .benefit-intro {
+    font-size: 1rem;
+  }
+  .get-started {
+    margin-top: 0;
+  }
+}
